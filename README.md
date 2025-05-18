@@ -98,12 +98,7 @@ Special thanks to ByMykel for maintaining these comprehensive resources!
 
 ## Contributing
 
-Contributions welcome! To contribute:
-
-1. Fork and create a feature branch
-2. Test your changes with `python cs2_stickers_downloader.py`
-3. Update the README if you add new features
-4. Submit a pull request
+Contributions welcome!
 
 Ideas for contributions:
 - Support for other CS2 assets (skins, cases, etc.)
