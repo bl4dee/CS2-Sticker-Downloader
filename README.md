@@ -4,13 +4,11 @@ A Python tool to download all Counter-Strike 2 (CS2) stickers in high quality PN
 
 ## Features
 
-- ✅ Download all CS2 stickers (1000+ files)
-- ✅ Two download methods: Direct GitHub repository or organized API
-- ✅ Automatic organization by tournaments, collections, and types
-- ✅ Smart downloading (skips existing files)
-- ✅ Rate limiting to be respectful to servers
-- ✅ Error handling and progress tracking
-- ✅ Cross-platform (Windows, macOS, Linux)
+-  Download all CS2 stickers (1000+ files)
+-  Two download methods: Direct GitHub repository or organized API
+-  Automatic organization by tournaments, collections, and types
+-  Smart downloading (skips existing files)
+-  Rate limiting to be respectful to servers
 
 ## Installation
 
