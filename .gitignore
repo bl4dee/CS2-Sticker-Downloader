@@ -172,3 +172,14 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Downloaded stickers (these are output, not source code)
+cs2_stickers/
+cs2_stickers_api/
+
+# Log files
+*.log
+
+# Any config files with personal info
+config.ini
+.env
