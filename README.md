@@ -94,7 +94,6 @@ Special thanks to ByMykel for maintaining these comprehensive resources!
 - **No Reverse Engineering**: No unauthorized access or data extraction is performed
 - **Respectful Usage**: Rate limiting ensures we don't overwhelm source servers
 
-**Disclaimer**: This project is not affiliated with Valve Corporation. Counter-Strike and CS2 are trademarks of Valve Corporation.
 
 ## Contributing
 
