@@ -85,7 +85,7 @@ Special thanks to ByMykel for maintaining these comprehensive resources!
 
 ## Legal Notice
 
-⚖️ **Important**: This tool downloads publicly accessible images for personal use only.
+ **Important**: This tool downloads publicly accessible images for personal use only.
 
 - **Copyright**: All CS2 stickers remain the intellectual property of Valve Corporation and respective creators
 - **Personal Use Only**: Downloaded images are for personal collection and educational purposes
