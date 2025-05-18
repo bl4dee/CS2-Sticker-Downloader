@@ -98,14 +98,17 @@ Special thanks to ByMykel for maintaining these comprehensive resources!
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! To contribute:
 
-### Development Setup
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork and create a feature branch
+2. Test your changes with `python cs2_stickers_downloader.py`
+3. Update the README if you add new features
+4. Submit a pull request
+
+Ideas for contributions:
+- Support for other CS2 assets (skins, cases, etc.)
+- GUI interface
+- Download progress improvements
 
 ## Troubleshooting
 
