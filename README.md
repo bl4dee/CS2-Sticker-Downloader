@@ -1,6 +1,6 @@
 # CS2 Stickers Downloader
 
-A Python tool to download all Counter-Strike 2 (CS2) stickers in high quality PNG format. This tool provides two methods to download and organize the complete collection of CS2 stickers.
+A Python tool to download all Counter-Strike 2 stickers in high quality PNG format. This tool provides two methods to download and organize the complete collection of CS2 stickers.
 
 ## Features
 
