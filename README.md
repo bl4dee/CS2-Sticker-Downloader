@@ -21,8 +21,8 @@ A Python tool to download all Counter-Strike 2 (CS2) stickers in high quality PN
 ### Setup
 1. Clone this repository:
 ```bash
-git clone https://github.com/bl4dee/cs2-stickers-downloader.git
-cd cs2-stickers-downloader
+git clone https://github.com/bl4dee/CS2-Sticker-Downloader.git
+cd CS2-Sticker-Downloader
 ```
 
 2. Install dependencies:
