@@ -14,7 +14,6 @@ A Python tool to download all Counter-Strike 2 stickers in high quality PNG form
 
 ### Prerequisites
 - Python 3.7 or higher
-- `requests` library
 
 ### Setup
 1. Clone this repository:
