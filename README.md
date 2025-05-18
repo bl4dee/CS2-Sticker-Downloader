@@ -98,7 +98,7 @@ Special thanks to ByMykel for maintaining these comprehensive resources!
 
 ## Contributing
 
-Contributions welcome!
+**Contributions welcome!**
 
 Ideas for contributions:
 - Support for other CS2 assets (skins, cases, etc.)
