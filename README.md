@@ -122,7 +122,7 @@ Ideas for contributions:
 ### Getting Help
 
 If you encounter issues:
-1. Check the [Issues](https://github.com/bl4dee/cs2-stickers-downloader/issues) page
+1. Check the [Issues](https://github.com/bl4dee/CS2-Sticker-Downloader/issues) page
 2. Create a new issue with:
    - Your operating system
    - Python version
