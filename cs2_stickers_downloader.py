@@ -4,6 +4,7 @@ import json
 from urllib.parse import urljoin
 import time
 from pathlib import Path
+from tqdm import tqdm
 
 class CS2StickersDownloader:
     def __init__(self, download_dir="cs2_stickers"):
@@ -27,8 +28,22 @@ class CS2StickersDownloader:
             print(f"Error fetching directory {path}: {e}")
             return []
     
-    def download_file(self, file_path, local_path):
-        """Download a single file"""
+    def count_total_files(self, path=""):
+        """Count total PNG files recursively for progress bar"""
+        contents = self.get_directory_contents(path)
+        total_files = 0
+        
+        for item in contents:
+            if item['type'] == 'file' and item['name'].endswith('.png'):
+                total_files += 1
+            elif item['type'] == 'dir':
+                subdir_path = item['path'].replace('static/panorama/images/econ/stickers/', '')
+                total_files += self.count_total_files(subdir_path)
+        
+        return total_files
+    
+    def download_file(self, file_path, local_path, pbar=None):
+        """Download a single file with progress bar support"""
         url = f"{self.raw_base_url}/{file_path}"
         try:
             response = self.session.get(url, stream=True)
@@ -37,24 +52,39 @@ class CS2StickersDownloader:
             # Create directory if it doesn't exist
             local_path.parent.mkdir(parents=True, exist_ok=True)
             
-            # Download the file
-            with open(local_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
+            # Get file size for progress tracking
+            total_size = int(response.headers.get('content-length', 0))
             
-            print(f"Downloaded: {local_path}")
+            # Download the file with progress
+            with open(local_path, 'wb') as f:
+                if total_size > 0:
+                    with tqdm(total=total_size, unit='B', unit_scale=True, 
+                             desc=f"Downloading {local_path.name}", leave=False) as file_pbar:
+                        for chunk in response.iter_content(chunk_size=8192):
+                            if chunk:
+                                f.write(chunk)
+                                file_pbar.update(len(chunk))
+                else:
+                    # Fallback if content-length is not available
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
+            
+            if pbar:
+                pbar.update(1)
+                pbar.set_description(f"Downloaded: {local_path.name}")
+            
             return True
         except requests.exceptions.RequestException as e:
-            print(f"Error downloading {file_path}: {e}")
+            if pbar:
+                pbar.write(f"Error downloading {file_path}: {e}")
             return False
     
-    def explore_directory(self, path="", current_local_dir=None):
+    def explore_directory(self, path="", current_local_dir=None, pbar=None):
         """Recursively explore directories and download PNG files"""
         if current_local_dir is None:
             current_local_dir = self.download_dir
         
-        print(f"Exploring: {path if path else 'root directory'}")
         contents = self.get_directory_contents(path)
         
         png_files = []
@@ -73,10 +103,12 @@ class CS2StickersDownloader:
             
             # Skip if file already exists
             if local_path.exists():
-                print(f"Skipping (already exists): {local_path}")
+                if pbar:
+                    pbar.update(1)
+                    pbar.set_description(f"Skipped: {file_item['name']}")
                 continue
             
-            self.download_file(file_path, local_path)
+            self.download_file(file_path, local_path, pbar)
             
             # Be nice to GitHub's API
             time.sleep(0.1)
@@ -85,15 +117,23 @@ class CS2StickersDownloader:
         for dir_item in subdirectories:
             subdir_path = dir_item['path'].replace('static/panorama/images/econ/stickers/', '')
             local_subdir = current_local_dir / dir_item['name']
-            self.explore_directory(subdir_path, local_subdir)
+            self.explore_directory(subdir_path, local_subdir, pbar)
     
     def download_all_stickers(self):
-        """Download all stickers from the repository"""
+        """Download all stickers from the repository with progress bar"""
         print("Starting CS2 stickers download...")
         print(f"Downloading to: {self.download_dir.absolute()}")
         
         try:
-            self.explore_directory()
+            # Count total files first
+            print("Scanning repository for PNG files...")
+            total_files = self.count_total_files()
+            print(f"Found {total_files} PNG files to download")
+            
+            # Create progress bar
+            with tqdm(total=total_files, desc="Downloading stickers", unit="file") as pbar:
+                self.explore_directory(pbar=pbar)
+            
             print("\n✅ Download completed successfully!")
             print(f"All stickers saved to: {self.download_dir.absolute()}")
         except Exception as e:
@@ -125,7 +165,7 @@ class CS2StickersAPIDownloader:
         })
     
     def download_from_api(self):
-        """Download stickers using the API endpoint"""
+        """Download stickers using the API endpoint with progress bars"""
         print("Fetching sticker data from API...")
         
         try:
@@ -155,45 +195,55 @@ class CS2StickersAPIDownloader:
                     collections[collection_name] = []
                 collections[collection_name].append(sticker)
             
-            # Download stickers organized by collection
-            total_downloaded = 0
-            for collection, stickers in collections.items():
-                collection_dir = self.download_dir / collection
-                collection_dir.mkdir(parents=True, exist_ok=True)
-                
-                print(f"\nDownloading {len(stickers)} stickers to {collection}...")
-                
-                for sticker in stickers:
-                    if 'image' not in sticker:
-                        continue
-                    
-                    # Clean filename
-                    filename = sticker['name'].replace('Sticker | ', '').replace('/', '_').replace('\\', '_')
-                    filename = f"{filename}.png"
-                    local_path = collection_dir / filename
-                    
-                    # Skip if exists
-                    if local_path.exists():
-                        continue
-                    
-                    # Download
-                    try:
-                        img_response = self.session.get(sticker['image'], stream=True)
-                        img_response.raise_for_status()
-                        
-                        with open(local_path, 'wb') as f:
-                            for chunk in img_response.iter_content(chunk_size=8192):
-                                if chunk:
-                                    f.write(chunk)
-                        
-                        print(f"  ✓ {filename}")
-                        total_downloaded += 1
-                        time.sleep(0.1)  # Be nice to the server
-                        
-                    except Exception as e:
-                        print(f"  ✗ Failed to download {filename}: {e}")
+            # Count total stickers with images
+            total_stickers = sum(1 for stickers in collections.values() 
+                               for sticker in stickers if 'image' in sticker)
             
-            print(f"\n✅ Successfully downloaded {total_downloaded} stickers!")
+            # Download stickers organized by collection with overall progress
+            with tqdm(total=total_stickers, desc="Downloading stickers", unit="file") as overall_pbar:
+                for collection, stickers in collections.items():
+                    collection_dir = self.download_dir / collection
+                    collection_dir.mkdir(parents=True, exist_ok=True)
+                    
+                    # Filter stickers with images
+                    stickers_with_images = [s for s in stickers if 'image' in s]
+                    
+                    if not stickers_with_images:
+                        continue
+                    
+                    overall_pbar.set_description(f"Downloading {collection}")
+                    
+                    for sticker in stickers_with_images:
+                        # Clean filename
+                        filename = sticker['name'].replace('Sticker | ', '').replace('/', '_').replace('\\', '_')
+                        filename = f"{filename}.png"
+                        local_path = collection_dir / filename
+                        
+                        # Skip if exists
+                        if local_path.exists():
+                            overall_pbar.update(1)
+                            overall_pbar.set_description(f"Skipped: {filename}")
+                            continue
+                        
+                        # Download without individual file progress
+                        try:
+                            img_response = self.session.get(sticker['image'], stream=True)
+                            img_response.raise_for_status()
+                            
+                            with open(local_path, 'wb') as f:
+                                for chunk in img_response.iter_content(chunk_size=8192):
+                                    if chunk:
+                                        f.write(chunk)
+                            
+                            overall_pbar.update(1)
+                            overall_pbar.set_description(f"Downloaded: {filename}")
+                            time.sleep(0.1)  # Be nice to the server
+                            
+                        except Exception as e:
+                            overall_pbar.write(f"✗ Failed to download {filename}: {e}")
+                            overall_pbar.update(1)
+            
+            print(f"\n✅ Successfully downloaded stickers!")
             print(f"Files saved to: {self.download_dir.absolute()}")
             
         except Exception as e:
