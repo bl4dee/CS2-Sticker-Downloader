@@ -108,7 +108,7 @@ Ideas for contributions:
 ### Common Issues
 
 **Download fails or times out:**
-- Check your internet connection
+- Turn off VPN & wait a couple minutes 
 - The script will resume from where it left off if restarted
 
 **Permission errors:**
