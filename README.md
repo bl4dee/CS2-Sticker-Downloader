@@ -140,10 +140,6 @@ A: No, this tool doesn't interact with Steam or your account in any way.
 **Q: How much storage space do I need?**
 A: Approximately 500MB-1GB depending on which method you choose.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Disclaimer
 
 This tool is not affiliated with Valve Corporation. Counter-Strike and CS2 are trademarks of Valve Corporation. Downloaded images remain the property of their respective owners.
