@@ -75,24 +75,12 @@ cs2_stickers/
 
 ## Credits & Data Sources
 
-This tool relies on these excellent projects:
+This tool relies on:
 
 - **Counter-Strike Image Tracker**: [ByMykel/counter-strike-image-tracker](https://github.com/ByMykel/counter-strike-image-tracker)
 - **CSGO API**: [ByMykel/CSGO-API](https://github.com/ByMykel/CSGO-API)
 
 Special thanks to ByMykel for maintaining these comprehensive resources!
-
-## Legal Notice
-
- **Important**: This tool downloads publicly accessible images for personal use only.
-
-- **Copyright**: All CS2 stickers remain the intellectual property of Valve Corporation and respective creators
-- **Personal Use Only**: Downloaded images are for personal collection and educational purposes
-- **No Commercial Use**: Do not use these images for commercial purposes without proper licensing
-- **Public APIs**: This tool only accesses publicly available APIs and images
-- **No Reverse Engineering**: No unauthorized access or data extraction is performed
-- **Respectful Usage**: Rate limiting ensures we don't overwhelm source servers
-
 
 ## Contributing
 
@@ -111,35 +99,6 @@ Ideas for contributions:
 - Turn off VPN & wait a couple minutes 
 - The script will resume from where it left off if restarted
 
-**Permission errors:**
-- Make sure you have write permissions in the download directory
-- Try running from a different location
-
 **API rate limiting:**
 - The script includes delays to prevent rate limiting
 - If you encounter issues, wait a few minutes and retry
-
-### Getting Help
-
-If you encounter issues:
-1. Check the [Issues](https://github.com/bl4dee/CS2-Sticker-Downloader/issues) page
-2. Create a new issue with:
-   - Your operating system
-   - Python version
-   - Error message (if any)
-   - Steps to reproduce
-
-## Frequently Asked Questions
-
-**Q: Is this legal?**
-A: Yes, this tool only downloads publicly accessible images using public APIs for personal use.
-
-**Q: Will this get me banned from Steam?**
-A: No, this tool doesn't interact with Steam or your account in any way.
-
-**Q: How much storage space do I need?**
-A: Approximately 500MB-1GB depending on which method you choose.
-
-## Disclaimer
-
-This tool is not affiliated with Valve Corporation. Counter-Strike and CS2 are trademarks of Valve Corporation. Downloaded images remain the property of their respective owners.
